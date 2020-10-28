@@ -1,6 +1,6 @@
 {
     "board": "arduino:avr:uno",
-    "port": "COM4",
     "programmer": "AVRISP mkII",
-    "sketch": "control_acceso\\control_acceso.ino"
+    "sketch": "control_acceso\\control_acceso.ino",
+    "port":"COM4"
 }

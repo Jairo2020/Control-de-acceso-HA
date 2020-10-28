@@ -1,24 +1,3 @@
 {
-    "C_Cpp.errorSquiggles": "Disabled",
-    "files.associations": {
-        "*.py": "python",
-        ".h": "c++",
-        "array": "cpp",
-        "string": "cpp",
-        "*.tcc": "cpp",
-        "vector": "cpp",
-        "exception": "cpp",
-        "functional": "cpp",
-        "iomanip": "cpp",
-        "istream": "cpp",
-        "limits": "cpp",
-        "ostream": "cpp",
-        "sstream": "cpp",
-        "streambuf": "cpp",
-        "*.inc": "cpp",
-        "deque": "cpp",
-        "list": "cpp",
-        "unordered_map": "cpp",
-        "initializer_list": "cpp"
-    }
+    "C_Cpp.errorSquiggles": "Disabled"
 }

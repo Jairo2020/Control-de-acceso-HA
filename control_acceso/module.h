@@ -1,5 +1,5 @@
-#ifndef MODULE_H
-#define MODULE_H
+#ifndef _MODULE_H_
+#define _MODULE_H_
 class module
 {
 private:
@@ -188,7 +188,7 @@ public:
     module();
     ~module();
 
-    uint8_t addFinger(Adafruit_Fingerprint *finger, LiquidCrystal_I2C *lcd, SoftwareSerial *blue, byte id);
+    uint8_t addFinger(Adafruit_Fingerprint *finger, LiquidCrystal_I2C *lcd, SoftwareSerial *blue, byte *id);
     uint8_t verifyUsers(Adafruit_Fingerprint *finger, LiquidCrystal_I2C *lcd, uint8_t CERRADURA);
     /*!
     @funtion 
@@ -206,6 +206,7 @@ public:
     void timbre(LiquidCrystal_I2C *lcd);
     void candadoAC(LiquidCrystal_I2C *lcd, boolean estado);
     void caraTF(LiquidCrystal_I2C *lcd, boolean estado);
+    void printMessage(LiquidCrystal_I2C *lcd);
     /*!
         @funtion
         @param estado []: 1 bluetooth activo 0 bluetooth desactivado.
@@ -221,17 +222,20 @@ public:
         0x00,
         0x00};
 };
-#endif
+
 module::~module()
 {
 }
+
 module::module()
 {
 }
-uint8_t module::addFinger(Adafruit_Fingerprint *finger, LiquidCrystal_I2C *lcd, SoftwareSerial *blue, byte id)
+
+uint8_t module::addFinger(Adafruit_Fingerprint *finger, LiquidCrystal_I2C *lcd, SoftwareSerial *blue, byte *id)
 {
     int p = -1;
     lcd->clear();
+    lcd->setCursor(0, 0);
     lcd->println("Poner huella");
     while (p != FINGERPRINT_OK)
     {
@@ -370,7 +374,7 @@ uint8_t module::addFinger(Adafruit_Fingerprint *finger, LiquidCrystal_I2C *lcd, 
 
     Serial.print("ID ");
 
-    p = finger->storeModel(id);
+    p = finger->storeModel(*id);
     if (p == FINGERPRINT_OK)
     {
         Serial.println("Stored!");
@@ -403,10 +407,12 @@ uint8_t module::addFinger(Adafruit_Fingerprint *finger, LiquidCrystal_I2C *lcd, 
 
     return true;
 }
+
 void module::openDoor(uint8_t CERRADURA)
 {
     digitalWrite(CERRADURA, HIGH);
 }
+
 uint8_t module::verifyUsers(Adafruit_Fingerprint *finger, LiquidCrystal_I2C *lcd, uint8_t CERRADURA)
 {
     uint8_t p = finger->getImage();
@@ -455,6 +461,7 @@ uint8_t module::verifyUsers(Adafruit_Fingerprint *finger, LiquidCrystal_I2C *lcd
 
     return finger->fingerID;
 }
+
 void module::clearLine(LiquidCrystal_I2C *lcd, byte columna, byte fila, byte cantDato)
 {
     lcd->createChar(7, clearLcd);
@@ -467,6 +474,7 @@ void module::clearLine(LiquidCrystal_I2C *lcd, byte columna, byte fila, byte can
         lcd->write(byte(7));
     }
 }
+
 void module::clearLine(LiquidCrystal_I2C *lcd, byte fila)
 {
     for (size_t i = 0; i <= 19; i++)
@@ -476,12 +484,14 @@ void module::clearLine(LiquidCrystal_I2C *lcd, byte fila)
         lcd->write(byte(7));
     }
 }
+
 void module::timbre(LiquidCrystal_I2C *lcd)
 {
     lcd->createChar(7, alarm);
     lcd->setCursor(18, 0);
     lcd->write(byte(7));
 }
+
 void module::candadoAC(LiquidCrystal_I2C *lcd, boolean estado)
 {
     if (estado == 1)
@@ -497,6 +507,7 @@ void module::candadoAC(LiquidCrystal_I2C *lcd, boolean estado)
         lcd->write(byte(6));
     }
 }
+
 void module::caraTF(LiquidCrystal_I2C *lcd, boolean estado)
 {
     if (estado == 1) // Cara Feliz
@@ -544,6 +555,7 @@ void module::caraTF(LiquidCrystal_I2C *lcd, boolean estado)
         lcd->write(byte(5));
     }
 }
+
 void module::blueOF(LiquidCrystal_I2C *lcd, boolean estado)
 {
     if (estado == 1)
@@ -559,3 +571,18 @@ void module::blueOF(LiquidCrystal_I2C *lcd, boolean estado)
         lcd->write(byte(6));
     }
 }
+
+void module::printMessage(LiquidCrystal_I2C *lcd)
+{
+    lcd->clear();
+    lcd->setCursor(4, 0);
+    lcd->print("BIENVENIDOS");
+    lcd->setCursor(2, 1);
+    lcd->print("HOME-AUTOMATION");
+    lcd->setCursor(0, 2);
+    lcd->print("Familia Rohatan te");
+    lcd->setCursor(0, 3);
+    lcd->print("da la bienvenida");
+}
+
+#endif
